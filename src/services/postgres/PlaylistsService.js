@@ -19,8 +19,8 @@ class PlaylistsService {
 
     const { rows } = await this._pool.query(query);
 
-    if (!rows.length) {
-      throw new InvariantError('Playlist Gagal Ditambahkan!');
+    if (!rows[0].id) {
+      throw new InvariantError('Playlist gagal ditambahkan!');
     }
 
     return rows[0];
@@ -39,20 +39,17 @@ class PlaylistsService {
     }
   }
 
-  async deletePlaylistByUserId(id) {
+  async deletePlaylist(id) {
+    const query = {
+      text: 'DELETE FROM playlists WHERE id = $1 RETURNING id',
+      values: [id],
+    };
 
-  }
+    const { rows } = await this._pool.query(query);
 
-  async addSongtoPlaylist({ songId, userId, playlistId }) {
-
-  }
-
-  async getSonginPlaylist({ songId, userId, playlistId }) {
-
-  }
-
-  async deleteSonginPlaylist({ songId, userId, playlistId}) {
-
+    if (!rows.length) {
+      throw new NotFoundError('Playlist gagal dihapus. Id tidak ditemukan');
+    }
   }
 
   async verifyPlaylistOwner(id, owner) {
