@@ -23,7 +23,7 @@ const AuthenticationsValidator = require('./validator/authentications');
 
 const init = async () => {
   const songsService = new SongsService();
-  const userService = new UsersService();
+  const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
   const server = Hapi.server({
     port: process.env.PORT,
@@ -61,16 +61,16 @@ const init = async () => {
 
   await server.register([
     {
-      plugins: songs,
+      plugin: songs,
       options: {
         service: songsService,
         validator: SongsValidator,
       },
     },
     {
-      plugins: users,
+      plugin: users,
       options: {
-        service: userService,
+        service: usersService,
         validator: UsersValidator,
       },
     },
