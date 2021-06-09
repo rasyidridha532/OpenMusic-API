@@ -37,9 +37,13 @@ class PlaylistsService {
     if (!rows.length) {
       throw new InvariantError('User tidak valid!');
     }
+
+    return rows.map();
   }
 
-  async deletePlaylist(id) {
+  async deletePlaylist(id, owner) {
+    await this.verifyPlaylistOwner(id, owner);
+
     const query = {
       text: 'DELETE FROM playlists WHERE id = $1 RETURNING id',
       values: [id],
