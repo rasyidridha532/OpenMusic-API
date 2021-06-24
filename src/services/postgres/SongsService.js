@@ -32,7 +32,8 @@ class SongsService {
   }
 
   async getSongs() {
-    const { rows } = await this._pool.query('SELECT * FROM songs');
+    const { rows } = await this._pool.query('SELECT id, title, '+
+      'performer FROM songs');
     return rows.map(mapDBToModel);
   }
 
